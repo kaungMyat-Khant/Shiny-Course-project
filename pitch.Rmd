@@ -17,10 +17,61 @@ library(knitr)
 ```
 
 ## About this App
-This app can be used to predict the price of a diamond based on its color, clarity and mass in carat.
-You can also specify which cut of the diamond you want to use in predicting the price.
+
+This app can be used to predict the price of a diamond based on its colour, clarity and mass in carat. You can also specify which cut of the diamonds you want to use as a dataset in predicting the price.
+
 ```{r data, include = TRUE}
-diamonds %>% select(cut, color, clarity, carat, price) %>% slice_head(n= 5) %>% 
-    kable()
+data <- diamonds %>% select(cut, color, clarity, carat, price) 
+data %>% slice_head(n= 5)  %>%   kable()
+```
+
+## How to use the app
+
+You can access the application here:   
+https://8odfh6-kmk-27.shinyapps.io/predictdiamondprice
+
+You can access the files for the application in the following github repository:  
+https://github.com/kaungMyat-Khant/Shiny-Course-project.git  
+
+#### Steps to use the app 
+
+1. First, select the cuts of the diamonds to define the dataset to use.  
+
+2. Then, select the colour, clarity and mass (carat) of the diamond you want to predict the price.  
+
+3. Click **Predict** button.
+
+## Properties of diamonds (Inputs) used to predict the price
+
+```{r input}
+Carat <- plot_ly(data = data, x = ~carat,name = "Carat", type = "box")
+Colour <- plot_ly(data = data, x = ~color,name = "Colours")
+Clarity <- plot_ly(data = data, x = ~clarity,name = "Clarity")
+Cut <- plot_ly(data = data, x = ~cut,name = "Cuts")
+subplot(Cut, Colour, Clarity, Carat, nrows = 2)
+```
+
+## Output  
+
+```{r output}
+fit <- lm(price ~ carat+color+clarity, data = data, subset = cut == "Ideal")
+abline <- predict(fit, newdata = data)
+result <- predict(fit, newdata = data.frame(carat = 0.7, color = "J", 
+                                            clarity = "IF"))
+plot <- data %>% 
+    filter(cut=="Ideal") %>% 
+    ggplot(aes(carat, price))+
+    geom_point(colour = "skyblue", alpha = 0.3, size = 1.5)+
+    geom_abline(slope = coef(fit)[2], intercept = coef(fit)[1], 
+                color = "firebrick", size = 2)+
+    geom_point(data = data.frame(carat = 0.7, price = result), aes(carat,price),
+               colour = "forestgreen", size = 10, alpha = 0.9)+
+    labs(
+        title="Price predicted by carat, colour and clarity",
+        subtitle = "Data of ideal cuts",
+        x = "Mass carat",
+        y = "Price(US$)"
+    )+ theme_minimal()
+ggplotly(plot)
 ```
 
