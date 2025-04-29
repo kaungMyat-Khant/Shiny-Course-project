@@ -26,12 +26,14 @@ function(input, output) {
                           ))
         plot <- 
             ggplot(data = data, aes(x = carat, y = price))+
-            geom_point(alpha = 0.3, color ="blue")+
+            geom_point(alpha = 0.3, color ="skyblue")+
             geom_abline(intercept = coef(fit)[1], slope = coef(fit)[2],
-                        color = "red", size = 2)+
-            geom_point(aes(x = input$carat, y = result),size =10, 
-                           color = "green")+
-            labs(title = title)+
+                        color = "firebrick", size = 2)+
+            geom_point(data = data.frame(x = input$carat, y = result),
+                       aes(x, y),size =10, 
+                           color = "forestgreen")+
+            labs(title = title, x = "Mass of diamond (carat)",
+                 y = "Price (US$)")+
             theme_minimal()
         plot
     })
@@ -44,8 +46,8 @@ function(input, output) {
                               color = input$color,
                               clarity = input$clarity
                           ))
-        paste(round(result),"$ for", input$carat,"carats",
-              input$color,"colour", input$clarity,"clarity",".")
+        paste(round(result),"$ for", input$carat,"carats",input$color,"colour", 
+              input$clarity,"clarity",".")
     })
     
 }
