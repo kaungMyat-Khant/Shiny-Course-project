@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(rsconnect)
 library(ggplot2)
 #' Define UI for application that predict the diamond price 
 #' based on cut, color, clarity and carat
