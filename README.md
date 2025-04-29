@@ -19,3 +19,6 @@ https://github.com/kaungMyat-Khant/Shiny-Course-project.git
 
 3. Click **Predict** button.
 
+### Pitch presentation 
+See the pitch presentation [here](http://rpubs.com/KMK27/shinyAppDiamondPitch)
+
