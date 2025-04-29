@@ -1,0 +1,26 @@
+---
+title: "Diamond Price Prediction"
+author: "Dr. Kaung Myat Khant"
+date: "`r Sys.Date()`"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      comment = "")
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(knitr)
+```
+
+## About this App
+This app can be used to predict the price of a diamond based on its color, clarity and mass in carat.
+You can also specify which cut of the diamond you want to use in predicting the price.
+```{r data, include = TRUE}
+diamonds %>% select(cut, color, clarity, carat, price) %>% slice_head(n= 5) %>% 
+    kable()
+```
+
